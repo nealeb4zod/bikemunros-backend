@@ -1,7 +1,5 @@
 package com.example.bikemunrosbackend.bikemunrosbackend.models;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
