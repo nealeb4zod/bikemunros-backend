@@ -87,9 +87,8 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+        User user = new User(signUpRequest.getName(), signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()),signUpRequest.getUsername());
 
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
@@ -122,6 +121,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
+
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
