@@ -2,7 +2,6 @@ package com.example.bikemunrosbackend.bikemunrosbackend.controllers;
 
 import com.example.bikemunrosbackend.bikemunrosbackend.models.Munro;
 import com.example.bikemunrosbackend.bikemunrosbackend.repositories.MunroRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/api/munros")
 public class MunroController {
 
     final
@@ -24,7 +25,7 @@ public class MunroController {
         this.munroRepository = munroRepository;
     }
 
-    @GetMapping(value = "/munros/page")
+    @GetMapping(value = "/page")
     Page<Munro> loadMunrosPage(
             @PageableDefault(page = 0, size = 20)
             @SortDefault.SortDefaults({
@@ -34,7 +35,7 @@ public class MunroController {
         return munroRepository.findAll(pageable);
     }
 
-    @GetMapping(value= "/munros")
+    @GetMapping(value= "")
     public ResponseEntity<List<Munro>>getAllMunrosAndFilters(
             @RequestParam(required = false, name = "name") String name,
             @RequestParam(required = false, name = "county") String county
@@ -48,24 +49,24 @@ public class MunroController {
         return new ResponseEntity<>(munroRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/munros/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity getMunro(@PathVariable Long id) {
         return new ResponseEntity<>(munroRepository.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/munros")
+    @PostMapping(value = "")
     public ResponseEntity<Munro> createMunro(@RequestBody Munro munro) {
         munroRepository.save(munro);
         return new ResponseEntity<> (munro, HttpStatus.CREATED);
     }
 
-    @PatchMapping(value = "/munros/{id}")
+    @PatchMapping(value = "/{id}")
     public ResponseEntity<Munro> updateMunro(@RequestBody Munro munro) {
         munroRepository.save(munro);
         return new ResponseEntity<>(munro, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "/munros/delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity deleteMunro(@PathVariable Long id) {
         Munro deletedMunro = munroRepository.getOne(id);
         munroRepository.deleteById(id);
